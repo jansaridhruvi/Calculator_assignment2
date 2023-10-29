@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.widget.Button
 import android.widget.TextView
+import javax.script.ScriptEngine
+import javax.script.ScriptEngineManager
 
 class MainActivity : AppCompatActivity() {
     private lateinit var expression:TextView
@@ -306,12 +308,11 @@ class MainActivity : AppCompatActivity() {
     }
     private fun ansText()
     {
-        val exp=expression.text
-        val engine:ScriptEnine=ScriptEngineManager().getEngineByName("rhino")
+        val exp=expression.text.toString()
+        val engine:ScriptEngine=ScriptEngineManager().getEngineByName("rhino")
         try {
-            {
                 val res=engine.eval(exp)
-                if(res.toString().endWith(".0"))
+                if(res.toString().endsWith(".0"))
                 {
                     ans.text="="+res.toString().replace("0","")
                 }
@@ -319,12 +320,11 @@ class MainActivity : AppCompatActivity() {
                 {
                     ans.text="=$res"
                 }
-            }
-            catch(e:Exception)
-            {
-                expression.text=expression.text.toString()
-                ans.text=expression.text.toString()
-            }
+        }
+        catch(e:Exception)
+        {
+            expression.text=expression.text.toString()
+            ans.text=expression.text.toString()
         }
     }
 }
